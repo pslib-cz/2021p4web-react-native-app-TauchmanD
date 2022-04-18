@@ -3,6 +3,9 @@
     "name": "testtts",
     "slug": "testtts",
     "version": "1.0.0",
+    "plugins": [
+      "@react-native-voice/voice"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "My.App"
     },
     "web": {
       "favicon": "./assets/favicon.png"

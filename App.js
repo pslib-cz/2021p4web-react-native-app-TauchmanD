@@ -1,33 +1,47 @@
-import * as React from 'react';
-import { View, StyleSheet, Button, TextInput, Text } from 'react-native';
-import Slider from '@react-native-community/slider';
-import * as Speech from 'expo-speech';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, DefaultTheme, DarkTheme, } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useColorScheme } from 'react-native';
+
+import Home from "./screens/Home"
+import TTS from "./screens/TTS"
+
+export const SCREEN_HOME = "Home"
+export const SCREEN_TTS = "TTS"
+
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [text, setText] = React.useState("")
-  const [pitch, setPitch] = React.useState(1)
-  const speak = () => {
-    options={
-        pitch: pitch
-    }
-    Speech.speak(text, options);
-  };
-
+  const scheme = useColorScheme();
   return (
-    <View style={styles.container}>
-      <TextInput value={text} onChangeText={setText} style={styles.input}/>
-      <Text>Pitch: {pitch}</Text>
-      <Slider
-      style={{width: 200, height: 40}}
-      minimumValue={0}
-      maximumValue={2}
-      minimumTrackTintColor="blue"
-      maximumTrackTintColor="#000000"
-      value={pitch}
-      onValueChange={setPitch}
-    />
-      <Button title="Press to hear some words" onPress={speak} />
-    </View>
+    <SafeAreaProvider>
+      <NavigationContainer theme={DarkTheme}>
+        <StatusBar barStyle="light-content" backgroundColor="#6a51ae" />
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              switch (route.name) {
+                case SCREEN_HOME : iconName = "mic"; break;
+                case SCREEN_TTS : iconName = "volume-high"; break;
+                default: iconName = "information-circle";
+              }
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: "#08ff4b",
+            tabBarInactiveTintColor: 'white',
+          })}
+        >
+          <Tab.Screen name={SCREEN_HOME} component={Home} options={{ title: 'Speech Recognition' }} />
+          <Tab.Screen name={SCREEN_TTS} component={TTS} options={{ title: 'Text To Speech' }} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
@@ -38,11 +52,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    alignSelf: "stretch",
-    height: 20,
-    borderBottomWidth: 2,
-    borderBottomColor: "red",
-    margin: 8
-  }
 });
