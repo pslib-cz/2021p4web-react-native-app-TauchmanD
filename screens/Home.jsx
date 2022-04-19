@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Text, View,  StyleSheet, TouchableOpacity } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import Voice from '@react-native-voice/voice';
+import Voice from '@react-native-voice/voice';
 
 export const Home = props => {
     const [recording, setRecording] = useState(false)
